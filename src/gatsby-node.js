@@ -1,6 +1,6 @@
 const lunr = require('lunr')
 const { enhanceLunr } = require('./common.js')
-const fs = require('fs-extra')
+const fs = require('fs')
 
 exports.onPostBuild = ({ getNodes }, pluginOptions) => {
   const { languages = [], filterNodes = () => true, fields = [], resolvers = {} } = pluginOptions
