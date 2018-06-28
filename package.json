@@ -2,7 +2,7 @@
   "name": "gatsby-plugin-lunr",
   "version": "0.1.0",
   "description": "Multilanguage search for Gatsby.js using Lunr.js",
-  "author": "",
+  "author": "Humansee Labs",
   "dependencies": {
     "lunr-languages": "^1.0.0",
     "lunr": "^2.3.0"
