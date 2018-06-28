@@ -54,9 +54,9 @@ module.exports = {
 
 ## Implementing Search in Your Web UI
 
-The search data will be available on the client side via ```window.__LUNR__```, that is an object with the following fields: 
+The search data will be available on the client side via ```window.__LUNR__``` that is an object with the following fields: 
 - ```index``` - a lunr index instance
-- ```store``` - object where key is gatsby node ID and value is a collection of field values.
+- ```store``` - object where the key is a gatsby node ID and value is a collection of field values.
 
 ```javascript
 import React, { Component } from 'react'
