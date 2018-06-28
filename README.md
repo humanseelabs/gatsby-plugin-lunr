@@ -1,6 +1,6 @@
 # Search Plugin for Gatsby
 
-Gatsby plugin for full text search implementation based on Lunr.js client-side index. Supports multilanguage search. Search index is stored in /public directory and has to be downloaded on client entry.
+Gatsby plugin for full text search implementation based on Lunr.js client-side index. It supports multilanguage search. Search index is placed into the /public folder during build time and has to be downloaded on client side on run time.
 
 ## Getting Started
 
@@ -16,7 +16,7 @@ or
     yarn add gatsby-plugin-lunr
 ```
 
-Add `gatsby-plugin-lunr` to the `gatsby-config.js` as follows
+Add `gatsby-plugin-lunr` configuration to the `gatsby-config.js` as following:
 
 ```javascript
 module.exports = {
@@ -36,7 +36,7 @@ module.exports = {
                 ],
                 // A function for filtering nodes. () => true by default
                 filterNodes: node => node.frontmatter !== undefined,
-                // // How to resolve each field's value for a supported node type
+                // How to resolve each field's value for a supported node type
                 resolvers: {
                     // For any node of type MarkdownRemark, list how to resolve the fields' values
                     MarkdownRemark: {
@@ -52,9 +52,11 @@ module.exports = {
 }
 ```
 
-## Consuming in Your Site
+## Implementing Search in Your Web UI
 
-The search index will be available via window.**LUNR**. It's an object with fields: 'index' - a lunr index instance and 'store' - object where key is gatsby node ID and value is a collection of fileds values.
+The search data will be available on the client side via ```window.__LUNR__```, that is an object with the following fields: 
+- ```index``` - a lunr index instance
+- ```store``` - object where key is gatsby node ID and value is a collection of field values.
 
 ```javascript
 import React, { Component } from 'react'
