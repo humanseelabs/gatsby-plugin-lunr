@@ -1,3 +1,5 @@
+/*.js
+!index.js
 .idea/
 .vscode/
 node_modules
