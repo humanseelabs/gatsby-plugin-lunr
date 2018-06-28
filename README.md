@@ -34,8 +34,8 @@ module.exports = {
                     { name: 'content' },
                     { name: 'url', store: true },
                 ],
-                // A fuction for filtering nodes. () => true by default
-                filterNodes: node => node.frontmatter !== undefined && node.frontmatter.templateKey in mapPagesUrls,
+                // A function for filtering nodes. () => true by default
+                filterNodes: node => node.frontmatter !== undefined,
                 // // How to resolve each field's value for a supported node type
                 resolvers: {
                     // For any node of type MarkdownRemark, list how to resolve the fields' values
@@ -43,7 +43,7 @@ module.exports = {
                         title: node => node.frontmatter.title,
                         description: node => node.frontmatter.description,
                         content: node => node.rawMarkdownBody,
-                        url: node => mapPagesUrls[node.frontmatter.templateKey](node.fields.slug),
+                        url: node => node.fields.url,
                     },
                 },
             },
