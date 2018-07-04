@@ -2,7 +2,7 @@ const lunr = require('lunr')
 const { enhanceLunr } = require('./common.js')
 const fs = require('fs')
 
-exports.onPostBuild = ({ getNodes }, pluginOptions) => {
+exports.onPostBuild = ({ getNodes, getNode }, pluginOptions) => {
   const { languages = [], filterNodes = () => true, fields = [], resolvers = {} } = pluginOptions
   enhanceLunr(lunr, languages)
 
@@ -31,7 +31,7 @@ exports.onPostBuild = ({ getNodes }, pluginOptions) => {
             ...Object.keys(fieldResolvers).reduce(
               (prev, key) => ({
                 ...prev,
-                [key]: fieldResolvers[key](n),
+                [key]: fieldResolvers[key](n, getNode),
               }),
               {},
             ),
