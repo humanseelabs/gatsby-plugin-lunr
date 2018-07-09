@@ -3,19 +3,14 @@ const { enhanceLunr } = require('./common.js')
 const fs = require('fs')
 
 exports.onPostBuild = ({ getNodes, getNode }, pluginOptions) => {
-  const { languages = [], filterNodes = () => true, fields = [], resolvers = {} } = pluginOptions
+  const { languages = ['en'], filterNodes = () => true, fields = [], resolvers = {} } = pluginOptions
   enhanceLunr(lunr, languages)
 
   const store = {}
   const storeFields = fields.filter((f) => f.store === true)
 
   const index = lunr(function() {
-    if (languages.length === 1) {
-      this.use(lunr[languages[0]])
-    } else if (languages.length > 1) {
-      this.use(lunr.multiLanguage(...languages))
-    }
-
+    this.use(lunr.multiLanguage(...languages))
     this.ref('id')
     fields.forEach(({ name, attributes = {} }) => {
       this.field(name, attributes)
