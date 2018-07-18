@@ -98,3 +98,6 @@ export default class Search extends Component {
     }
 }
 ```
+
+
+Sample code and example on implementing search within gatsby starter project could be found in the article at: https://medium.com/humanseelabs/gatsby-v2-with-a-multi-language-search-plugin-ffc5e04f73bc
