@@ -60,6 +60,29 @@ module.exports = {
 }
 ```
 
+### Using plugins
+```javascript
+const myPlugin = (lunr) => (builder) => {
+  // removing stemmer
+  builder.pipeline.remove(lunr.stemmer)
+  builder.searchPipeline.remove(lunr.stemmer)
+  // or similarity tuning
+  builder.k1(1.3)
+  builder.b(0)
+}
+```
+Pass it to the `gatsby-config.js`:
+...
+languages: [
+            {
+             name: 'en',
+             ...
+             plugins: [myPlugin]
+            }
+           ]
+...        
+
+
 ## Implementing Search in Your Web UI
 
 The search data will be available on the client side via `window.__LUNR__` that is an object with the following fields:
