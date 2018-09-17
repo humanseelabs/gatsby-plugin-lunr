@@ -1,9 +1,10 @@
+/* global __PATH_PREFIX__ */
 const lunr = require('lunr')
 const { enhanceLunr } = require('./common.js')
 
 exports.onClientEntry = (args, { languages }) => {
     enhanceLunr(lunr, languages)
-    fetch('/search_index.json')
+    fetch(`${__PATH_PREFIX__}/search_index.json`)
         .then(function(response) {
             return response.json()
         })
