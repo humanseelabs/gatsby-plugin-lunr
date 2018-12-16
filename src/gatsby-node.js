@@ -2,8 +2,13 @@ const lunr = require("lunr");
 const { enhanceLunr } = require("./common.js");
 const fs = require("fs");
 
-exports.onPostBuild = ({ getNodes, getNode }, pluginOptions) => {
-    const { languages = [], fields = [], resolvers = {} } = pluginOptions;
+exports.onPostBootstrap = ({ getNodes, getNode }, pluginOptions) => {
+    const {
+        languages = [],
+        fields = [],
+        resolvers = {},
+        filename = "search_index.json"
+    } = pluginOptions;
 
     enhanceLunr(lunr, languages);
 
@@ -69,5 +74,5 @@ exports.onPostBuild = ({ getNodes, getNode }, pluginOptions) => {
         }
     );
 
-    fs.writeFileSync(`public/search_index.json`, JSON.stringify(fullIndex));
+    fs.writeFileSync(`public/${filename}`, JSON.stringify(fullIndex));
 };
