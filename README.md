@@ -54,6 +54,8 @@ module.exports = {
                         url: node => node.fields.url,
                     },
                 },
+                //custom index file name, default is search_index.json
+                filename: 'search_index.json',
             },
         },
     ],
