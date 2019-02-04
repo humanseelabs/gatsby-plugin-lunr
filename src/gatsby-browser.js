@@ -7,7 +7,8 @@ exports.onClientEntry = (
     { languages, filename = "search_index.json" }
 ) => {
     enhanceLunr(lunr, languages);
-    fetch(`${__PATH_PREFIX__}/${filename}`)
+    window.__LUNR__ = window.__LUNR__ || {};
+    window.__LUNR__.__loaded = fetch(`${__PATH_PREFIX__}/${filename}`)
         .then(function(response) {
             return response.json();
         })
@@ -20,8 +21,14 @@ exports.onClientEntry = (
                         store: fullIndex[key].store
                     }
                 }),
-                {}
+                {
+                    __loaded: window.__LUNR__.__loaded
+                }
             );
+            return window.__LUNR__;
         })
-        .catch(e => console.log("Failed fetch search index"));
+        .catch(e => {
+            console.log("Failed fetch search index");
+            throw e;
+        });
 };
