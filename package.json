@@ -1,19 +1,20 @@
 {
   "name": "gatsby-plugin-lunr",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Multilanguage search for Gatsby.js using Lunr.js",
   "author": "Humansee Labs",
   "repository": "https://github.com/humanseelabs/gatsby-plugin-lunr",
   "dependencies": {
-    "babel-runtime": "^6.26.0",
-    "lunr": "^2.3.0",
-    "lunr-languages": "^1.0.0"
+    "@babel/runtime": "^7.4.3",
+    "lunr": "^2.3.6",
+    "lunr-languages": "^1.1.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.3",
+    "@babel/plugin-transform-runtime": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
     "cross-env": "^5.0.5"
   },
   "keywords": [
