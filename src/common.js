@@ -4,6 +4,9 @@ const enhanceLunr = (lunr, lngs) => {
     lngs.forEach(({name}) => {
       if (name !== 'en') {
         try {
+          if (name === 'jp' || name === 'ja') {
+            require(`lunr-languages/tinyseg`)(lunr)
+          }
           require(`lunr-languages/lunr.${name}`)(lunr)
         } catch (e) {
           console.log(e)
