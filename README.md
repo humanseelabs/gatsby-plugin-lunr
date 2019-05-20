@@ -56,6 +56,10 @@ module.exports = {
                 },
                 //custom index file name, default is search_index.json
                 filename: 'search_index.json',
+                //custom options on fetch api call for search_ındex.json
+                fetchOptions: {
+                    credentials: 'same-origin'
+                },
             },
         },
     ],
