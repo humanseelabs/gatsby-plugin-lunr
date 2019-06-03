@@ -4,11 +4,14 @@ const { enhanceLunr } = require("./common.js");
 
 exports.onClientEntry = (
     args,
-    { languages, filename = "search_index.json" }
+    { languages, filename = "search_index.json", fetchOptions = {} }
 ) => {
     enhanceLunr(lunr, languages);
     window.__LUNR__ = window.__LUNR__ || {};
-    window.__LUNR__.__loaded = fetch(`${__PATH_PREFIX__}/${filename}`)
+    window.__LUNR__.__loaded = fetch(
+        `${__PATH_PREFIX__}/${filename}`,
+        fetchOptions
+    )
         .then(function(response) {
             return response.json();
         })
