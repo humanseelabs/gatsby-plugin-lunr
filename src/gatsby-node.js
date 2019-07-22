@@ -14,14 +14,12 @@ exports.onCreateWebpackConfig = ({ actions, plugins }, { languages = [] }) => {
                         const match = resource.match(/lunr\.(\w+)/);
                         if (match !== null) {
                             const name = match[1];
-                            if (languageNames.has(name)) {
+                            if (!languageNames.has(name)) {
                                 // Skip the resource.
-                                return false;
+                                return true;
                             };
                         }
                     }
-                    // Keep the resource.
-                    return true;
                 }
             })
         ]
