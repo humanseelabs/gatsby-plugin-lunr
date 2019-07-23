@@ -2,6 +2,30 @@ const lunr = require("lunr");
 const { enhanceLunr } = require("./common.js");
 const fs = require("fs");
 
+
+exports.onCreateWebpackConfig = ({ actions, plugins }, { languages = [] }) => {
+    const languageNames = new Set(languages.map(language => language.name));
+
+    actions.setWebpackConfig({
+        plugins: [
+            plugins.ignore({
+                checkResource(resource, context) {
+                    if (/lunr-languages$/.test(context)) {
+                        const match = resource.match(/lunr\.(\w+)/);
+                        if (match !== null) {
+                            const name = match[1];
+                            if (!languageNames.has(name)) {
+                                // Skip the resource.
+                                return true;
+                            };
+                        }
+                    }
+                }
+            })
+        ]
+    });
+}
+
 exports.onPostBootstrap = ({ getNodes, getNode }, pluginOptions) => {
     const {
         languages = [],
