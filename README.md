@@ -88,8 +88,64 @@ languages: [
            ]
 ...        
 
+## Implementing Search in Your Web UI using Functional Components
 
-## Implementing Search in Your Web UI
+The search data will be available on the client side via `window.__LUNR__` that is an object with the following fields:
+
+-   `index` - a lunr index instance
+-   `store` - object where the key is a gatsby node ID and value is a collection of field values.
+
+```javascript
+import React, { useState, useEffect } from 'react'
+import { Link } from 'gatsby'
+
+const Search = () => {
+  const [query, setQuery] = useState(``)
+  const [results, setResults] = useState([])
+
+  useEffect(
+    () => {
+      if (!query || !window.__LUNR__) {
+        setResults([])
+        return
+      }
+      const lunrIndex = window.__LUNR__['en']
+      const searchResults = lunrIndex.index.search(query)
+      setResults(
+        searchResults.map(({ ref }) => {
+          return lunrIndex.store[ref]
+        })
+      )
+    },
+    [query]
+  )
+
+  return (
+    <div>
+      <input
+        type='text'
+        defaultValue={query}
+        onChange={event => {
+          setQuery(event.target.value)
+        }}
+      />
+      <ul>
+        {results.map(({ url, title }) => {
+          return (
+            <li key={url}>
+              <Link to={url}>{title}</Link>
+            </li>
+          )
+        })}
+      </ul>
+    </div>
+  )
+}
+
+export default Search
+```
+
+## Implementing Search in Your Web UI using Class Components
 
 The search data will be available on the client side via `window.__LUNR__` that is an object with the following fields:
 
