@@ -2,9 +2,13 @@
 const lunr = require("lunr");
 const { enhanceLunr } = require("./common.js");
 
-const matchesAny = (path, matches) => matches.filter(f => {
-    return f.match(new RegExp(f));
-});
+const matchesAny = (path, matches = []) => {
+    const matched = matches.filter(matchStr => {
+        const m = path.match(new RegExp(matchStr));
+        return m && m.length;
+    });
+    return matched.length;
+};
 
 const shouldIncludeLunr = (path, { include = [], exclude = [] }) =>
     matchesAny(path, include) && !matchesAny(path, exclude);
