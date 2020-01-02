@@ -10,8 +10,18 @@ const matchesAny = (path, matches = []) => {
     return matched.length;
 };
 
-const shouldIncludeLunr = (path, { include = [], exclude = [] }) =>
-    matchesAny(path, include) && !matchesAny(path, exclude);
+const shouldIncludeLunr = (path, { include = [], exclude = [] }) => {
+    if (include.length && exclude.length) {
+        return matchesAny(path, include) && !matchesAny(path, exclude);
+    }
+    if (include.length && !exclude.length) {
+        return matchesAny(path, include);
+    }
+    if (!include.length && exclude.length) {
+        return !matchesAny(path, exclude);
+    }
+    return false;
+};
 
 const includeLunr = (filename = "search_index.json", fetchOptions = {}) => {
     window.__LUNR__ = window.__LUNR__ || {};
