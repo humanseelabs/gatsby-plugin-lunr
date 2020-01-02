@@ -2,12 +2,18 @@
 const lunr = require("lunr");
 const { enhanceLunr } = require("./common.js");
 
-exports.onClientEntry = (
-    args,
-    { languages, filename = "search_index.json", fetchOptions = {} }
-) => {
-    enhanceLunr(lunr, languages);
+const matchesAny = (path, matches) => matches.filter(f => {
+    return f.match(new RegExp(f));
+});
+
+const shouldIncludeLunr = (path, { include = [], exclude = [] }) =>
+    matchesAny(path, include) && !matchesAny(path, exclude);
+
+const includeLunr = (filename = "search_index.json", fetchOptions = {}) => {
     window.__LUNR__ = window.__LUNR__ || {};
+    if (window.__LUNR__.__loaded) {
+        return;
+    }
     window.__LUNR__.__loaded = fetch(
         `${__PATH_PREFIX__}/${filename}`,
         fetchOptions
@@ -34,4 +40,35 @@ exports.onClientEntry = (
             console.log("Failed fetch search index");
             throw e;
         });
+};
+
+exports.onClientEntry = (
+    args,
+    {
+        languages,
+        filename,
+        fetchOptions,
+        includeOptions = {},
+    }
+) => {
+    enhanceLunr(lunr, languages);
+    if (!Object.keys(includeOptions).length) {
+        includeLunr(filename, fetchOptions);
+    }
+};
+
+exports.onPreRouteUpdate = (
+    { location, prevLocation },
+    {
+        filename,
+        fetchOptions,
+        includeOptions = {},
+    }
+) => {
+    if (
+        Object.keys(includeOptions).length &&
+        shouldIncludeLunr(path, includeOptions)
+    ) {
+        includeLunr(filename, fetchOptions);
+    }
 };

@@ -60,6 +60,24 @@ module.exports = {
                 fetchOptions: {
                     credentials: 'same-origin'
                 },
+
+                // Set includeOptions if you want granular control over how the
+                // Lunr JSON should be included on the site.
+                // This will ensure that a large Lunr payload won't be
+                // loaded until it is necessary.
+                // Each path in the include or exclude properties will be
+                // transformed into a regular expression for matching.
+                // To use the default behaviour, which is to load it on the very
+                // first page load, leave out or set to an empty object.
+                includeOptions: {
+                    include: [
+                      '^\/search',
+                      '^\/404',
+                    ],
+                    exclude: [
+                      '^\/$',
+                    ]
+                },
             },
         },
     ],
