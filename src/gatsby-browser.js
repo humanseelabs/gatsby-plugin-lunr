@@ -67,7 +67,7 @@ exports.onPreRouteUpdate = (
 ) => {
     if (
         Object.keys(includeOptions).length &&
-        shouldIncludeLunr(path, includeOptions)
+        shouldIncludeLunr(location.pathname, includeOptions)
     ) {
         includeLunr(filename, fetchOptions);
     }
