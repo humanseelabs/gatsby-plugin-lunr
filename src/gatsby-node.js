@@ -70,7 +70,7 @@ exports.onPostBootstrap = ({ getNodes, getNode }, pluginOptions) => {
                                 ...Object.keys(fieldResolvers).reduce(
                                     (prev, key) => ({
                                         ...prev,
-                                        [key]: fieldResolvers[key](n, getNode)
+                                        [key]: fieldResolvers[key](n, getNode, getNodes)
                                     }),
                                     {}
                                 )
