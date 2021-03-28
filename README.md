@@ -60,6 +60,24 @@ module.exports = {
                 fetchOptions: {
                     credentials: 'same-origin'
                 },
+
+                // Set includeOptions if you want granular control over how the
+                // Lunr JSON should be included on the site.
+                // This will ensure that a large Lunr payload won't be
+                // loaded until it is necessary.
+                // Each path in the include or exclude properties will be
+                // transformed into a regular expression for matching.
+                // To use the default behaviour, which is to load it on the very
+                // first page load, leave out or set to an empty object.
+                includeOptions: {
+                    include: [
+                      '^\/search',
+                      '^\/404',
+                    ],
+                    exclude: [
+                      '^\/$',
+                    ]
+                },
             },
         },
     ],
@@ -195,3 +213,43 @@ export default class Search extends Component {
 ```
 
 Sample code and example on implementing search within gatsby starter project could be found in the article at: https://medium.com/humanseelabs/gatsby-v2-with-a-multi-language-search-plugin-ffc5e04f73bc
+
+## Loading search index on specific pages
+
+If you need to load the search index on specific pages, you can do so using
+the `includeOptions` setting. With the `include` parameter you can set specific
+page paths to include via regex, or you can exclude paths using the `exclude`
+setting.
+
+If you do this, you'll probably want to poll until `window.__LUNR__` is
+available, to prevent trying to fetch the Lunr index while it hasn't been
+loaded yet. You can do this within your React components by writing a
+function that returns a Promise, and then using it to perform your search.
+
+For example, this waits for up to 2 seconds for Lunr:
+
+```javascript
+const getLunr = (languageCode) => {
+  return new Promise ((resolve, reject) => {
+    const limit = 20;
+    let attempts = 0;
+    const interval = setInterval(() => {
+      if (window.__LUNR__ && typeof window.__LUNR__[languageCode] === 'object') {
+        clearInterval(interval);
+        resolve(window.__LUNR__[languageCode]);
+      }
+      attempts += 1;
+      if (attempts >= limit) {
+        clearInterval(interval);
+        reject();
+      }
+    }, 100);
+  });
+};
+```
+
+You can then call `getLunr(languageCode)` within your code, either in
+a Promise chain or using async/await, and run searches on its index.
+
+Depending on the file size of your index, you might want to change the
+poll limit, or the time spent waiting in each polling iteration.
